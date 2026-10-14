@@ -1,0 +1,49 @@
+import cv2
+import time
+
+# Read the captured video
+video = cv2.VideoCapture("video.mp4")
+
+if not video.isOpened():
+    print("Video not found!")
+    exit()
+
+fps = video.get(cv2.CAP_PROP_FPS)
+if fps <= 0:
+    fps = 30
+
+print("Press 1 for Normal Speed")
+print("Press 2 for Slow Motion")
+print("Press 3 for Fast Motion")
+print("Press Q to Quit")
+
+mode = 1
+
+while True:
+    ret, frame = video.read()
+
+    if not ret:
+        break
+
+    cv2.imshow("Video Processing", frame)
+
+    if mode == 1:
+        delay = int(1000 / fps)       # Normal speed
+    elif mode == 2:
+        delay = int(2000 / fps)       # Slow motion
+    else:
+        delay = int(500 / fps)        # Fast motion
+
+    key = cv2.waitKey(max(1, delay)) & 0xFF
+
+    if key == ord('1'):
+        mode = 1
+    elif key == ord('2'):
+        mode = 2
+    elif key == ord('3'):
+        mode = 3
+    elif key == ord('q'):
+        break
+
+video.release()
+cv2.destroyAllWindows()
