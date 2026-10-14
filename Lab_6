@@ -1,0 +1,29 @@
+import cv2
+import numpy as np
+
+# Read the image
+image = cv2.imread("test.jpg")
+
+if image is None:
+    print("Image not found!")
+else:
+    # Convert image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Create a kernel
+    kernel = np.ones((5, 5), np.uint8)
+
+    # Apply erosion
+    eroded = cv2.erode(gray, kernel, iterations=1)
+
+    # Display images
+    cv2.imshow("Original Image", gray)
+    cv2.imshow("Eroded Image", eroded)
+
+    # Save the eroded image
+    cv2.imwrite("eroded.jpg", eroded)
+
+    print("Image erosion completed successfully!")
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
