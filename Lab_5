@@ -1,0 +1,32 @@
+import cv2
+import matplotlib.pyplot as plt
+
+def analyze_histogram(image_path):
+    # Read the image
+    image = cv2.imread(image_path)
+
+    if image is None:
+        print("Image not found!")
+        return
+
+    # Define colors and channels
+    colors = ('b', 'g', 'r')
+    channels = (0, 1, 2)
+
+    # Plot histogram for each color channel
+    for channel, color in zip(channels, colors):
+        histogram = cv2.calcHist(
+            [image], [channel], None, [256], [0, 256]
+        )
+        plt.plot(histogram, color=color)
+
+    plt.title("Color Histogram")
+    plt.xlabel("Pixel Intensity (0-255)")
+    plt.ylabel("Number of Pixels")
+    plt.xlim([0, 256])
+    plt.show()
+
+    print("Color histogram analyzed successfully!")
+
+# Call the function
+analyze_histogram("test.jpg")
